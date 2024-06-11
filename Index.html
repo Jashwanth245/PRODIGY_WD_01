@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Navigation Menu</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            scroll-behavior: smooth;
+        }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #4a90e2;
+            color: white;
+            z-index: 1000;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        #navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #navbar li {
+            padding: 14px 20px;
+            position: relative;
+        }
+
+        #navbar a {
+            text-decoration: none;
+            color: white;
+            display: block;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        
+
+        #navbar a:hover, #navbar a.active {
+            background-color: #357ABD;
+        }
+
+        #navbar .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #4a90e2;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        #navbar .dropdown-content a {
+            padding: 12px 16px;
+        }
+
+        #navbar li:hover .dropdown-content {
+            display: block;
+        }
+
+        #content {
+            padding-top: 60px; /* To prevent content from being hidden behind the fixed navbar */
+        }
+
+        section {
+            padding: 60px 20px;
+            height: 100vh;
+        }
+
+        #home { background-color: #e3f2fd; }
+        #about { background-color: #bbdefb; }
+        #services { background-color: #90caf9; }
+        #contact { background-color: #64b5f6; }
+
+        /* Scroll Indicator */
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background-color: #ffd700;
+            z-index: 1001;
+        }
+
+        /* Responsive Navbar */
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            #navbar ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            #navbar ul.active {
+                display: flex;
+            }
+            .menu-icon {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="progress"></div>
+    <nav id="navbar">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li class="dropdown">
+                <a href="#services">Services</a>
+                <div class="dropdown-content">
+                    <a href="#web-design">Web Design</a>
+                    <a href="#seo">SEO</a>
+                    <a href="#marketing">Marketing</a>
+                </div>
+            </li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        <section id="home">
+            <h1>Home Section</h1>
+            <p>Content for home section goes here.</p>
+        </section>
+        <section id="about">
+            <h1>About Section</h1>
+            <p>Content for about section goes here.</p>
+        </section>
+        <section id="web-design">
+            <h1>Web Design Section</h1>
+            <p>Content for web design section goes here.</p>
+        </section>
+        <section id="seo">
+            <h1>SEO Section</h1>
+            <p>Content for SEO section goes here.</p>
+        </section>
+        <section id="marketing">
+            <h1>Marketing Section</h1>
+            <p>Content for marketing section goes here.</p>
+        </section>
+        <section id="services">
+            <h1>Services Section</h1>
+            <p>Content for services section goes here.</p>
+        </section>
+        <section id="contact">
+            <h1>Contact Section</h1>
+            <p>Content for contact section goes here.</p>
+        </section>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            var progress = document.getElementById('progress');
+            var scrollTop = document.documentElement.scrollTop;
+            var windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrollPercent = (scrollTop / windowHeight) * 100;
+            progress.style.width = scrollPercent + '%';
+
+            if (scrollTop > 50) {
+                navbar.style.backgroundColor = '#357ABD';
+            } else {
+                navbar.style.backgroundColor = '#4a90e2';
+            }
+
+            highlightActiveSection();
+        });
+
+        function toggleMenu() {
+            var navbarUl = document.querySelector('#navbar ul');
+            navbarUl.classList.toggle('active');
+        }
+
+        document.querySelectorAll('#navbar a').forEach(function(item) {
+            item.addEventListener('mouseenter', function() {
+                this.style.color = '#ffd700';.
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.color = this.classList.contains('active') ? '#ffd700' : '#fff';
+            });
+        });
+
+        function highlightActiveSection() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('#navbar a');
+
+            let index = sections.length;
+
+            while (--index && window.scrollY + 60 < sections[index].offsetTop) {}
+
+            navLinks.forEach((link) => link.classList.remove('active'));
+            navLinks[index].classList.add('active');
+        }
+
+        highlightActiveSection();
+    </script>
+</body>
+</html>
